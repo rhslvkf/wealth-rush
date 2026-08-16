@@ -20,7 +20,7 @@ const money=n=>new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',ma
 const pct=n=>`${n>=0?'+':''}${n.toFixed(2)}%`;
 function fresh(){return {day:1,cash:10000000,prices:Object.fromEntries(ASSETS.map(a=>[a.id,a.base])),holdings:Object.fromEntries(ASSETS.map(a=>[a.id,0])),history:[],event:null,started:false,ended:false};}
 function seed(){state=fresh();renderStart()}
-function portfolio(){return state.cash+ASSETS.reduce((s,a)=>s+state.holdings[a.id]*state.prices[a.id]*100000,s);}
+function portfolio(){return state.cash+ASSETS.reduce((total,a)=>total+state.holdings[a.id]*state.prices[a.id]*100000,0)}
 function renderStart(){document.querySelector('#app').innerHTML=`<div class="start"><div class="modal"><div class="brand">WEALTH <span>RUSH</span></div><h1>30일 투자왕</h1><p>가상의 1,000만원으로 30일 동안 시장을 돌파해봐.<br>뉴스를 읽고, 자산을 사고팔고, 마지막 수익률로 승부해.</p><button class="primary" id="start">게임 시작</button></div></div>`;document.querySelector('#start').onclick=()=>{state.started=true;render()}}
 function render(){
  const value=portfolio(), ret=(value/10000000-1)*100, dayPct=state.day/30*100;
